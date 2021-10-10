@@ -179,11 +179,6 @@ function Game() {
         if (opponent[0] == ".") {
           opponent = opponent.substring(1);
         }
-        console.log('against? ' + vnode.attrs.against);
-        console.log('dimensioon? ' + vnode.attrs.dimension);
-        let dimension = parseInt(vnode.attrs.dimension);
-        console.log(typeof dimension);
-
         start(vnode.attrs.player, opponent, dimension);
         content = m("div");
       } else {
