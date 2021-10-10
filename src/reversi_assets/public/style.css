@@ -1,0 +1,259 @@
+body {
+  padding: 0;
+  background: #b7bf76;
+}
+
+@font-face {
+  font-family: "Akbar-Plain";
+  src: url("https://thev.net/fonts/akbar/Akbar-Plain.ttf.woff") format("woff"),
+    url("https://thev.net/fonts/akbar/Akbar-Plain.ttf.svg#Akbar-Plain")
+      format("svg"),
+    url("https://thev.net/fonts/akbar/Akbar-Plain.ttf.eot"),
+    url("https://thev.net/fonts/akbar/Akbar-Plain.ttf.eot?#iefix")
+      format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1 {
+  margin: 5px;
+  line-height: 1.2;
+}
+
+.logo {
+  height: 4em;
+}
+
+.top-centered {
+  position: fixed;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  width: 20em;
+}
+
+.bottom-centered {
+  position: fixed;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 20em;
+}
+
+.bottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+div {
+  margin: auto;
+  font-family: "Akbar-Plain";
+  text-align: center;
+}
+
+svg {
+  margin: auto;
+  display: block;
+}
+
+.no-flicker {
+  -webkit-transform-style: preserve-3d;
+}
+
+.players {
+  display: flex;
+  margin-top: 20px;
+  color: #060;
+}
+
+.black-player {
+  font: bold 2em "Akbar-Plain";
+  color: black;
+  text-align: left;
+  flex-grow: 1;
+}
+
+.white-player {
+  font: bold 2em "Akbar-Plain";
+  color: white;
+  text-align: right;
+  flex-grow: 1;
+}
+
+.dots {
+  margin-bottom: 10px;
+}
+
+.board {
+  margin-bottom: 20px;
+}
+
+.dimension {
+  color: #060;
+}
+
+.player-score {
+  color: #c42;
+}
+
+.score {
+  font-size: 3em;
+  pointer-events: none;
+}
+
+.error {
+  color: #060;
+  font-family: "Akbar-Plain";
+  margin-bottom: 20px;
+}
+
+.dot {
+  stroke: none;
+}
+
+.hollow {
+  fill: none;
+  stroke: #888;
+  stroke-width: 1px;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-opacity: 1;
+}
+
+.white {
+  fill: #fff;
+  fill-opacity: 1;
+}
+
+.black {
+  fill: #000;
+  fill-opacity: 1;
+}
+
+.fancy {
+  animation: fade-in 1s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.exit {
+  animation: fade-out 1s;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.player-name {
+  color: #060;
+}
+
+.tips {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 0.8em;
+  color: #363;
+  width: 100%;
+  height: 8em;
+}
+
+.tip {
+  text-align: left;
+}
+
+a,
+a:link,
+a:hover,
+a:active,
+a:visited {
+  color: #363;
+  text-decoration: none;
+}
+
+.tip ol {
+  margin-left: 0;
+  margin-top: 5px;
+  padding-left: 1em;
+  padding-right: 0;
+}
+
+.tip ul {
+  margin-left: 0;
+  margin-top: 5px;
+  list-style: none;
+  padding-left: 0em;
+  padding-right: 0;
+}
+
+.tip li {
+  margin-bottom: 3px;
+}
+
+h4 {
+  font-weight: normal;
+  font-size: 1em;
+  margin: 5px 5px 0 0;
+}
+
+.left-list {
+  text-align: left;
+  float: left;
+  width: 50%;
+}
+
+.right-list {
+  text-align: left;
+  float: right;
+  width: 50%;
+}
+
+body,
+.input,
+.label,
+.button {
+  font-family: "Akbar-Plain";
+  margin: 10px;
+}
+
+.input {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: block;
+  margin: 10px 0 10px 10px;
+  padding: 10px 15px;
+  width: 100%;
+}
+
+
+.button {
+  background: #eee;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  color: #333;
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: #e8e8e8;
+}
