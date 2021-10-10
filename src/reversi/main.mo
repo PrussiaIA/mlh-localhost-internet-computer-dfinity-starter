@@ -266,19 +266,7 @@ actor {
   // Create a new game, and add to the list of games.
   func add_game(black_id: PlayerId, black_name: Text, white_name: Text, board_dimension: Nat) : GameState {
 
-    let set_games_played =
-      func (player: ?PlayerState) {
-        switch (player) {
-          case (?player) {
-            player.games_played := Int.abs(player.games_played + 1);
-            };
-          case _ {};
-        }
-      };
-
-
-   set_games_played(Option.chain(?black_name, lookup_player_by_name));
-   set_games_played(Option.chain(?white_name, lookup_player_by_name));
+    // Add code here!
 
     let N = board_dimension;
     let game = {
