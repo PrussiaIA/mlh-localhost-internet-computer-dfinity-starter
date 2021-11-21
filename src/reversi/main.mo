@@ -15,7 +15,7 @@ import Game "./game";
 import Types "./types";
 import Utils "./utils";
 
-actor {
+actor Reversi {
 
   type Result<T,E> = Result.Result<T,E>;
   type Players = Types.Players;
@@ -266,7 +266,19 @@ actor {
   // Create a new game, and add to the list of games.
   func add_game(black_id: PlayerId, black_name: Text, white_name: Text, board_dimension: Nat) : GameState {
 
-    // Add code here!
+    let set_games_played =
+      func (player: ?PlayerState) {
+        switch (player) {
+          case (?player) {
+            player.games_played := Int.abs(player.games_played + 1);
+            };
+          case _ {};
+        }
+      };
+
+
+   set_games_played(Option.chain(?black_name, lookup_player_by_name));
+   set_games_played(Option.chain(?white_name, lookup_player_by_name));
 
     let N = board_dimension;
     let game = {
@@ -300,7 +312,7 @@ actor {
             points * player_level / opponent_level
           }
         };
-        let bonus = 2 * N * N - result.black - result.white;
+        let bonus = (2 * N * N) : Nat - (result.black) : Nat - (result.white) : Nat;
         let set_score =
           func (player: PlayerState, points: Int, player_level: Nat, opponent_level: Nat) {
             let delta = compute_score(points, player_level, opponent_level);

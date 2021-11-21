@@ -22,7 +22,7 @@ help:
 	@echo '  clean                     -- Remove build products.'
 	@echo '  canister                  -- Only build the main canister'
 	@echo '  assets                    -- Build both the main and assets canisters.'
-	@echo 
+	@echo
 	@echo 'The PROVIDER variable is optional. It corresponds to "networks" configuration in'
 	@echo 'the dfx.json file. The default is "local".'
 
@@ -58,7 +58,7 @@ upgrade-assets:
 
 .PHONY: clean clean-npm clean-state clean-all
 
-clean: 
+clean:
 	rm -rf .dfx/$(PROVIDER)
 
 clean-npm:
@@ -82,11 +82,3 @@ $(CANISTER_TARGET): $(CANISTER_IDS) $(MO_SRC) $(DFX_CFG)
 
 $(ASSETS_TARGET) $(JS_TARGET) : $(CANISTER_IDS) $(MO_SRC) $(JS_SRC) $(JS_CFG) $(DFX_CFG) node_modules
 	dfx build --network $(PROVIDER)
-
-sodium-install:
-	npm install > /dev/null 2>&1 
-	dfx canister --network sodium create reversi
-	dfx canister --network sodium create reversi_assets
-	dfx build --network sodium --all
-	dfx canister --network sodium install --all --mode reinstall
-	@echo Please visit https://$$(dfx canister --network sodium id reversi_assets).ic0.app to play the reversi game!

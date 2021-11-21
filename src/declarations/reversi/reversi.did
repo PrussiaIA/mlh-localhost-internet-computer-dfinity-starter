@@ -1,0 +1,88 @@
+type StartError = 
+ variant {
+   InvalidOpponentName;
+   NoSelfGame;
+   OpponentInAnotherGame;
+   PlayerNotFound;
+ };
+type Score = nat;
+type Result_1 = 
+ variant {
+   err: RegistrationError;
+   ok: PlayerView;
+ };
+type Result = 
+ variant {
+   err: StartError;
+   ok: GameView;
+ };
+type RegistrationError = 
+ variant {
+   InvalidName;
+   NameAlreadyExists;
+ };
+type PlayerView__1 = 
+ record {
+   games_played: GamesPlayed;
+   name: PlayerName;
+   score: Score;
+ };
+type PlayerView = 
+ record {
+   games_played: GamesPlayed;
+   name: PlayerName;
+   score: Score;
+ };
+type PlayerName = text;
+type MoveResult = 
+ variant {
+   GameNotFound;
+   GameNotStarted;
+   GameOver: ColorCount;
+   IllegalColor;
+   IllegalMove;
+   InvalidColor;
+   InvalidCoordinate;
+   OK;
+   Pass;
+ };
+type ListResult = 
+ record {
+   available: vec PlayerView__1;
+   recent: vec PlayerView__1;
+   top: vec PlayerView__1;
+ };
+type GamesPlayed = nat;
+type GameView = 
+ record {
+   black: record {
+            opt null;
+            PlayerName;
+          };
+   board: text;
+   dimension: nat;
+   moves: vec nat8;
+   next: Color;
+   result: opt ColorCount;
+   white: record {
+            opt null;
+            PlayerName;
+          };
+ };
+type ColorCount = 
+ record {
+   black: nat;
+   white: nat;
+ };
+type Color = 
+ variant {
+   black;
+   white;
+ };
+service : {
+  list: () -> (ListResult) query;
+  move: (int, int) -> (MoveResult);
+  register: (text) -> (Result_1);
+  start: (text, nat) -> (Result);
+  view: () -> (opt GameView) query;
+}

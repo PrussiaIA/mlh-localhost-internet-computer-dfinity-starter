@@ -1,49 +1,11 @@
 //////////////////////////////////////////////////////////////////////////////
-// Sound and graphics helper functions
+// Graphics helper functions
 //////////////////////////////////////////////////////////////////////////////
 import { valid_move } from "./game.js";
 import m from "mithril";
 
 // The sound of putting down a piece. It will be loaded from reversi_assets.
 var putsound = null;
-
-export function play_put_sound() {
-  playAudio(putsound);
-}
-
-export function load_put_sound(reversi_assets) {
-  if (putsound === null) {
-    putsound = {}; // avoid loading it twice
-    reversi_assets
-      .retrieve("put.mp3")
-      .then(function(array) {
-        let buffer = new Uint8Array(array);
-        var context = new AudioContext();
-        context.decodeAudioData(buffer.buffer, function(res) {
-          //console.log("Audio is loaded");
-          putsound = { buffer: res, context: context };
-        });
-      })
-      .catch(function(err) {
-        console.log("Asset retrieve error, ignore");
-        console.log(err);
-      });
-  }
-}
-
-// Play a sound.
-function playAudio(sound) {
-  if ("buffer" in sound) {
-    var audioSource = sound.context.createBufferSource();
-    audioSource.connect(sound.context.destination);
-    audioSource.buffer = sound.buffer;
-    if (audioSource.noteOn) {
-      audioSource.noteOn(0);
-    } else {
-      audioSource.start();
-    }
-  }
-}
 
 const clientRatio =
   document.documentElement.clientWidth / document.documentElement.clientHeight;
@@ -76,7 +38,7 @@ export function Board(
   const black_id = game["black"][0];
   const white_player = game["white"][1];
   const black_player = game["black"][1];
-  const dimension = game.dimension.toNumber();
+  const dimension = Number(game.dimension);
   const last = boards.length > 1 ? boards[0].board : null;
   const board = boards.length > 1 ? boards[1].board : boards[0].board;
   const animate_list = [];
@@ -341,7 +303,7 @@ export function Board(
     ]),
     m("svg.dots", { width: boardLength, height: dotsHeight }, dots),
     m("svg.board", { width: boardLength, height: boardLength }, cells),
-    m("h1.dimension", dimension + " × " + dimension)
+    m("h1.dimension", dimension + " x " + dimension)
   ];
 }
 

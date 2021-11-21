@@ -26,7 +26,7 @@ public type GamesPlayed = Types.GamesPlayed;
 public func to_lowercase(name: Text) : Text {
   var str = "";
   for (c in Text.toIter(name)) {
-    let ch = if ('A' <= c and c <= 'Z') { Prim.word32ToChar(Prim.charToWord32(c) + 32) } else { c };
+    let ch = if ('A' <= c and c <= 'Z') { Prim.nat32ToChar(Prim.charToNat32(c) + 32) } else { c };
     str := str # Prim.charToText(ch);
   };
   str
@@ -67,9 +67,9 @@ public func same_game(game_A: GameState, game_B: GameState) : Bool {
 // Reset a game to initial state.
 public func reset_game(game: GameState) {
     let N = game.dimension;
-    let M = N / 2;
-    let blacks = [ (M - 1, M), (M, M - 1) ];
-    let whites = [ (M - 1, M - 1), (M, M) ];
+    let M = (N / 2);
+    let blacks = [ ((M - 1) : Nat, M), (M, (M - 1) : Nat) ];
+    let whites = [ ((M - 1) : Nat, (M - 1) : Nat), (M, M) ];
     Game.init_board(N, game.board, blacks, whites);
     game.moves.clear();
     let add_move = func ((row: Nat, col: Nat)) {

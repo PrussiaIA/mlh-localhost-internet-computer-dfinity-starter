@@ -9,10 +9,9 @@
         "reversi"
       ],
       "frontend": {
-        "entrypoint": "src/reversi_assets/public/index.js"
+        "entrypoint": "src/reversi_assets/public/index.html"
       },
       "source": [
-        "src/reversi_assets/assets",
         "dist/reversi_assets/"
       ],
       "type": "assets"
@@ -23,17 +22,11 @@
       "packtool": ""
     }
   },
+  "dfx": "0.8.0",
   "networks": {
     "local": {
       "bind": "0.0.0.0:8000",
       "type": "ephemeral"
-    },
-    "sodium": {
-      "providers": [
-        "https://gw.dfinity.network"
-      ],
-      "type": "persistent"
     }
-  },
-  "dfx": "0.6.4"
+  }
 }

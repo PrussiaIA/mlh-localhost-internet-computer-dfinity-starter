@@ -1,5 +1,7 @@
-import reversi from "ic:canisters/reversi";
-import reversi_assets from "ic:canisters/reversi_assets";
+import { Actor, HttpAgent } from "@dfinity/agent";
+
+
+import { reversi } from '../../declarations/reversi'
 import { valid_move, set_and_flip, replay } from "./game.js";
 import { get_error_message, set_error, clear_error } from "./error.js";
 import {
@@ -8,8 +10,6 @@ import {
   white,
   same_color,
   opponent_color,
-  play_put_sound,
-  load_put_sound
 } from "./ui.js";
 import "./style.css";
 import logo from "./logo.png";
@@ -43,9 +43,8 @@ function Game() {
           if (game.moves.length > last_move_length) {
             // handle new moves
             let opponent_piece = "white" in player_color ? "*" : "O";
-            const N = game.dimension.toNumber();
+            const N = Number(game.dimension);
             while (last_move_length < game.moves.length) {
-              play_put_sound();
               const idx = game.moves[last_move_length];
               const i = Math.floor(idx / N);
               const j = idx % N;
@@ -82,7 +81,7 @@ function Game() {
               return;
             } else {
               // reset game when player name has changed
-              const N = game.dimension.toNumber();
+              const N = Number(game.dimension);
               var board = replay(N, game.moves);
               boards = [{ row: -1, col: -1, board: board }];
               m.redraw();
@@ -99,14 +98,13 @@ function Game() {
   };
   var start = function(player, opponent, board_size) {
     clearTimeout(refreshTimeout);
-    load_put_sound(reversi_assets);
     console.log("Start " + player + " against " + opponent);
     reversi
-      .start(opponent, board_size)
+      .start(opponent, Number(board_size))
       .then(function(res) {
         if ("ok" in res) {
           game = res["ok"];
-          const N = game.dimension.toNumber();
+          const N = Number(game.dimension);
           var board = replay(N, game.moves);
           boards.push({ row: -1, col: -1, board: board });
           last_move_length = game.moves.length;
@@ -135,11 +133,10 @@ function Game() {
   };
 
   var next_move = function(evt) {
-    const dimension = game.dimension.toNumber();
+    const dimension = Number(game.dimension);
     const idx = parseInt(evt.target.id);
     const row = Math.floor(idx / dimension);
     const col = idx % dimension;
-    play_put_sound();
     console.log(JSON.stringify(player_color) + " move " + row + ", " + col);
     const piece = "white" in player_color ? "O" : "*";
     var board = boards[boards.length - 1].board;
@@ -168,6 +165,7 @@ function Game() {
     }
     m.redraw();
   };
+
   return {
     onremove: function(vnode) {
       clearTimeout(refreshTimeout);
@@ -179,7 +177,7 @@ function Game() {
         if (opponent[0] == ".") {
           opponent = opponent.substring(1);
         }
-        start(vnode.attrs.player, opponent, dimension);
+        start(vnode.attrs.player, opponent, vnode.attrs.dimension);
         content = m("div");
       } else {
         content = Board(
@@ -207,7 +205,7 @@ function make_player_list(players, ordered) {
       "li",
       m(m.route.Link, { href: "/play?opponent=" + player.name }, [
         player.name + "(",
-        m("span.player-score", player.score.toNumber()),
+        m("span.player-score", Number(player.score)),
         ")"
       ])
     );
@@ -327,23 +325,16 @@ function Tips() {
 function Play() {
   var tips_on = false;
   var opponent_name = null;
-
-  var board_size_options = [
+    const board_size_options = [
       {name: "6 x 6", value: "6"},
       {name: "8 x 8", value: "8"},
       {name: "12 x 12", value: "12"},
-    ];
+    ]
   var board_size = board_size_options[0].value;
-
-  var dropdown_menu_ctrl = {
-      selection: board_size_options[0].value,
-      options: board_size_options,
-    };
-
   var set_player_info = function(info) {
     player_name = info["name"];
-    player_score = info["score"].toNumber();
-    player_games_played = info["games_played"].toNumber();
+    player_score = Number(info["score"]);
+    player_games_played = Number(info["games_played"]);
   };
   var set_tips_on = function() {
     tips_on = true;
@@ -416,6 +407,12 @@ function Play() {
       });
   };
 
+  const dropdown_menu_ctrl = {
+    selection: board_size_options[0].value,
+    options: board_size_options,
+  }
+
+
   let tips = Tips();
   return {
     oninit: init_play,
@@ -469,9 +466,27 @@ function Play() {
             value: opponent_name
           })
         );
-
-        // Add code here!
-        
+        form.push(
+          m("label.label", "Board Size"),
+        );
+        form.push(
+          m("select[name=board_size].input", {
+            value: dropdown_menu_ctrl.selection,
+            oninput: function(e) {
+              board_size = e.target.value;
+            },
+            onchange: e => {
+              dropdown_menu_ctrl.selection =
+                dropdown_menu_ctrl.options[e.target.selectedIndex].value;
+            }
+          }, [
+            dropdown_menu_ctrl.options.map(
+              option => m("option", {
+                "key": option.value, "value": option.value
+              }, option.name)
+            )
+          ]),
+        );
         form.push(m("button.button[type=submit]", "Play!"),);
 
         return [
