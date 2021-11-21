@@ -469,24 +469,9 @@ function Play() {
         form.push(
           m("label.label", "Board Size"),
         );
-        form.push(
-          m("select[name=board_size].input", {
-            value: dropdown_menu_ctrl.selection,
-            oninput: function(e) {
-              board_size = e.target.value;
-            },
-            onchange: e => {
-              dropdown_menu_ctrl.selection =
-                dropdown_menu_ctrl.options[e.target.selectedIndex].value;
-            }
-          }, [
-            dropdown_menu_ctrl.options.map(
-              option => m("option", {
-                "key": option.value, "value": option.value
-              }, option.name)
-            )
-          ]),
-        );
+
+        // Add code here!
+
         form.push(m("button.button[type=submit]", "Play!"),);
 
         return [
